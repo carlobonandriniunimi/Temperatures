@@ -12,20 +12,26 @@ reader = csv.reader(lines)
 header_row = next(reader)
 
 highs = []
+lows = []
 dates = []
 for row in reader:
     current_date = datetime.strptime(row[2], '%Y-%m-%d')
     high = int(row[4])
+    low = int(row[5])
     highs.append(high)
+    lows.append(low)
     dates.append(current_date)
 
-# Plot the high temperatures
+# Plot the high and low temperatures
 plt.style.use('seaborn-v0_8')
 fig, ax = plt.subplots()
-ax.plot(dates, highs, color='red')
+ax.plot(dates, highs, color='red', alpha=0.5)
+ax.plot(dates, lows, color='blue', alpha=0.5)
+# * Fills the area between two series of y-values
+ax.fill_between(dates, highs, lows, facecolor='blue', alpha=0.1)
 
 # Format plot
-ax.set_title("Daily High Temperatures, 2021", fontsize=24)
+ax.set_title("Daily High and Low Temperatures, 2021", fontsize=24)
 ax.set_xlabel('', fontsize=16)
 # Puts them diagonally
 fig.autofmt_xdate()
